@@ -7,10 +7,12 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.Duration;
 
 public abstract class BasePage {
-    WebDriver driver;
+    public WebDriver driver;
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
@@ -50,5 +52,30 @@ public abstract class BasePage {
 
     public boolean isTextPresent(WebElement element, String book) {
         return element.getText().contains(book);
+    }
+
+    public void verifyLinks(String linkUrl) {
+        try {
+            URL url = new URL(linkUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(5000);
+            connection.connect();
+            if (connection.getResponseCode() >= 400) {
+                System.out.println(linkUrl + " - " + connection.getResponseMessage() + " is a broken link");
+            } else {
+                System.out.println(linkUrl + " - " + connection.getResponseMessage());
+            }
+        } catch (Exception ex) {
+            System.out.println(linkUrl + " - " + ex.getMessage() + " is a broken link");
+        }
+    }
+
+    public void pause(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
