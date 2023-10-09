@@ -1,6 +1,7 @@
 package org.ait.herokuapp.pages.widgets;
 
 import org.ait.herokuapp.pages.BasePage;
+import org.ait.herokuapp.pages.WindowPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -25,12 +26,12 @@ public class SliderPage extends BasePage {
     WebElement range;
 
     public SliderPage assertSliderValue(String number) {
-        Assert.assertEquals(getValueAttribute(range, "range"),number);
+        Assert.assertTrue(isTextPresent(range, number));
         return this;
     }
 
-    public String getValueAttribute(WebElement element, String name) {
-        pause(500);
-        return element.getAttribute(name);
-    }
+ //  public String getValueAttribute(WebElement element, String name) {
+    //    pause(500);
+    //    return element.getAttribute(name);
+    //}
 }
